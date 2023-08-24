@@ -1,4 +1,9 @@
 <?php
+namespace App\Core;
+
+
+use PDO;
+
 
 class connect
 {
@@ -7,7 +12,7 @@ class connect
     public static function getConnect()
     {
     try {
-        require './Core/config.php';
+         include 'config.php';
             $bdd = new PDO('mysql:host='.$host.';dbname='.$dbName.';charset=utf8', ''.$username.'', ''.$password.'');
             return $bdd;
         } catch (Exception $e) {
