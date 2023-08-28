@@ -31,7 +31,7 @@ class loginModel
         $profilestmt->execute();
 
         $profileData = $profilestmt->fetch(\PDO::FETCH_ASSOC);
-        return$profileData;
+        return $profileData;
     }
 }
 
