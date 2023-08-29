@@ -33,6 +33,23 @@ class loginModel
         $profileData = $profilestmt->fetch(\PDO::FETCH_ASSOC);
         return $profileData;
     }
+
+    public function getProfileInfo($id){
+        $request = 'SELECT * FROM profile WHERE id = :id';
+        $statement = $this->bdd->prepare($request);
+        $statement->bindParam(':id', $id);
+        $result = $statement->execute();
+
+        if ($result){
+           return $statement->fetch(\PDO::FETCH_ASSOC);
+            
+        }
+        else {
+            echo "Error, Profile doesn't exist";
+            return;
+        }
+        
+    }
 }
 
 

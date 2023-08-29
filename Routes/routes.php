@@ -14,6 +14,9 @@ $router = new Router();
 $router->get('/api/login', function(){
  (new loginController)->login();
 });
+$router->get('/api/profile', function(){
+ (new loginController)->getProfile();
+});
 
 
 // POST 

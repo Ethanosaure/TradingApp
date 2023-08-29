@@ -39,4 +39,19 @@ class LoginController extends Controller{
         }
 
     }
+    public function getProfile(){
+        $jsonData = file_get_contents("php://input");
+        $data = json_decode($jsonData, true);
+        if ($data === null){
+            http_response_code(400);
+            echo json_encode(array("error" => "Invalid JSON data"));
+            return;
+        } else {
+            $id = $data['profile_id'];
+            $profile = new loginModel();
+            $profile->getProfileInfo($id);
+
+        }
+        
+    }
 }
