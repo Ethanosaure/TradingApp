@@ -26,4 +26,9 @@ $router->post('/api/wire', function (){
 $router->post('/api/signUp', function(){
     (new signUpController)->signUp();
 });
+
+// PATCH
+$router->patch('/api/update', function(){
+     (new loginController)->updateProfile();
+});
 $router->run();
