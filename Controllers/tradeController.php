@@ -18,8 +18,9 @@ class tradeController extends Controller
         } else {
         $quantity = $data['quantity'];
         $name = $data['name'];
+        $id = $data['id'];
         $trade = new tradeModel();
-        $trade->trade($quantity, $name);
+        $trade->trade($quantity, $name, $id);
 
 
         }
