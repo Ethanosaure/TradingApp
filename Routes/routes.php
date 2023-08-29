@@ -6,6 +6,7 @@ use Bramus\Router\Router;
 use App\Controllers\signUpController;
 use App\Controllers\loginController;
 use App\Controllers\wireController;
+use App\Controllers\tradeController;
 
 $router = new Router();
 
@@ -25,6 +26,9 @@ $router->post('/api/wire', function (){
 });
 $router->post('/api/signUp', function(){
     (new signUpController)->signUp();
+});
+$router->post('/api/openTrade', function(){
+    (new tradeController)->openTrade();
 });
 
 // PATCH

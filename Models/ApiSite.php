@@ -34,17 +34,15 @@ if ($err) {
 	$array = json_decode($response, true);
 	$i = 0;
 	$SpecificCompany;
-echo '<br>';
+
 	foreach ($array as $company) {
     if ($company['name'] === 'Walt Disney'){
         $SpecificCompany[$i] = $company;
         $i++;
-        echo '<br>';
     }
     if ($company['name'] === 'Freightcar'){
         $SpecificCompany[$i] = $company;
         $i++;
-        echo '<br>';
     }
 	if ($company['name'] === 'Coca-Cola'){
 		$SpecificCompany[$i] = $company;
@@ -54,30 +52,14 @@ echo '<br>';
 	 if ($company['name'] === 'Amphenol'){
         $SpecificCompany[$i] = $company;
         $i++;
-        echo '<br>';
     }
 	 if ($company['name'] === 'American Airlines'){
         $SpecificCompany[$i] = $company;
         $i++;
-        echo '<br>';
     }
 
 }
-foreach ($SpecificCompany as $companies){
-	echo '<div class=companies>';
-	echo 'Name: '.$companies['name'].'';
-	echo '<br>';
-	echo 'Price:'.$companies['last'].'$';
-	echo '<br>';
-	echo 'Date:' .$companies['time'].'';
-	echo '<br>';
-	echo 'Highest:' .$companies['high'].'$';
-	echo '<br>';
-	echo 'Lowest:' .$companies['low'].'$';
-	echo '<br>';
-	echo '</div>';
-	echo '<br>';
-}
+return json_encode($SpecificCompany);
      
 		}
 	}
