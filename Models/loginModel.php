@@ -41,12 +41,12 @@ class loginModel
         $result = $statement->execute();
 
         if ($result){
-           return $statement->fetch(\PDO::FETCH_ASSOC);
-            
+            $profileData = $statement->fetch(\PDO::FETCH_ASSOC);
+            return $profileData;
         }
         else {
-            echo "Error, Profile doesn't exist";
-            return;
+            
+            return null;
         }
         
     }

@@ -49,8 +49,17 @@ class LoginController extends Controller{
         } else {
             $id = $data['profile_id'];
             $profile = new loginModel();
-            $profile->getProfileInfo($id);
+            $result  = $profile->getProfileInfo($id);
 
+            if ($result){
+                http_response_code(200);
+                echo json_encode(array($result));
+                return;
+            } else {
+                http_response_code(404);
+                echo json_encode(array("error" => "Profile doesn't exist"));
+                return;
+            }
         }
         
     }
