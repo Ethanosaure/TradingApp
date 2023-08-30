@@ -40,6 +40,18 @@ class tradeController extends Controller
         $oneTrade = new tradeModel();
         $oneTrade->GetOneTrade($id);
     }
+    public function tradeOpen(){
+        $jsonData = file_get_contents("php://input");
+        $data = json_decode($jsonData, true);
+        if(!$data){
+            echo json_encode(array('Error' => 'No data'));
+            return;
+        } else {
+        $id = $data['profile_id'];
+        $trade = new tradeModel();
+        $trade->TradeOpen($id);
+        }
+    }
 }
 
 ?>

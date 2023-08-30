@@ -82,5 +82,20 @@ class tradeModel {
             return;
         }
     }
+    public function TradeOpen($id){
+        $request = 'SELECT * FROM trade WHERE profile_id = :id';
+        $statement= $this->bdd->prepare($request);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        if(!$result){
+            echo json_encode(array('Error' => 'There is no open trades for this profile'));
+            return;
+        } else {
+            echo json_encode($result);
+            return;
+        }
+
+    }
 }
 ?>
