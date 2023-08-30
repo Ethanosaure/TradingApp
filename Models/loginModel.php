@@ -67,7 +67,7 @@ class loginModel
                } else if ($row === 1){
                 $profileData = $stmt->fetch(\PDO::FETCH_ASSOC);
                 $Name = (($profileData['first_name'] != $name) && ($name != null)) ? $name : $profileData['first_name'];
-                $LastName = (($profileData['last_name'] != $lastName) && ($lastname != null)) ? $lastName : $profileData['last_name'];
+                $LastName = (($profileData['last_name'] != $lastName) && ($lastName != null)) ? $lastName : $profileData['last_name'];
                 $Address = (($profileData['address'] != $address) && ($address != null)) ? $address : $profileData['address'];
 
                 $request = 'UPDATE profile SET first_name = :firstName, last_name = :lastName, address = :address WHERE id = :id';
