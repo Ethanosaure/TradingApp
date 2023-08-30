@@ -83,7 +83,7 @@ class tradeModel {
         }
     }
     public function TradeOpen($id){
-        $request = 'SELECT * FROM trade WHERE profile_id = :id';
+        $request = 'SELECT * FROM trade WHERE profile_id = :id AND open = 1';
         $statement= $this->bdd->prepare($request);
         $statement->bindParam(':id', $id);
         $statement->execute();
@@ -96,6 +96,20 @@ class tradeModel {
             return;
         }
 
+    }
+    public function tradeClosed($id){
+        $request ='SELECT * FROM trade WHERE profile_id =:id AND open = 0';
+        $statement = $this->bdd->prepare($request);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        if(!$result){
+            echo json_encode(array('Error' => 'There is no Closed trades for this profile'));
+            return;
+        } else {
+            echo json_encode($result);
+            return;
+        }
     }
 }
 ?>

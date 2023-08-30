@@ -24,9 +24,13 @@ $router->get('/api/trades/index', function(){
 $router->get('/api/trades/index/open', function (){
     (new tradeController)->tradeOpen();
 });
+$router->get('/api/trades/index/closed', function(){
+    (new tradeController)->tradeClosed();
+});
 $router->get("/api/trades/{id}", function($id){
     (new tradeController)->getOneTrade($id);
 });
+
 
 
 
