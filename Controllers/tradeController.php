@@ -17,10 +17,11 @@ class tradeController extends Controller
             return;
         } else {
         $quantity = $data['quantity'];
-        $name = $data['name'];
-        $id = $data['id'];
+        $id = $data['profile_id'];
+        $price = $data['price'];
+        $symbol = $data['symbol'];
         $trade = new tradeModel();
-        $trade->trade($quantity, $name, $id);
+        $trade->trade($quantity, $symbol, $id, $price);
 
 
         }
