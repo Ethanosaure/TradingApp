@@ -44,6 +44,9 @@ $router->post('/api/signUp', function(){
 $router->post('/api/openTrade', function(){
     (new tradeController)->openTrade();
 });
+$router->post('/api/closeTrade/{id}', function($id){
+    (new tradeController)->closeTrade($id);
+});
 
 // PATCH
 $router->patch('/api/update', function(){

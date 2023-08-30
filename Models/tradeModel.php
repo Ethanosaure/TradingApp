@@ -111,5 +111,49 @@ class tradeModel {
             return;
         }
     }
+    public function CloseTrade($id, $profileId, $price){
+        $request = 'SELECT quantity FROM trade WHERE id = :id';
+        $statement = $this->bdd->prepare($request);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+        if(!$result){
+            echo json_encode(array('Error' => "There is no trade with this id: $id"));
+            return;
+        } else {
+            $quantity = $result['quantity'];
+            $total = $quantity * $price;
+            $request = 'UPDATE trade SET open= 0, close_price = :price, close_datetime = now(), quantity = 0 WHERE id = :id';
+            $statement = $this->bdd->prepare($request);
+            $statement->bindParam(':id', $id);
+            $statement->bindParam(':total', $price);
+            $result = $statement->execute();
+            if($result){
+                $request = 'SELECT balance FROM profile WHERE id = :id';
+                $statement = $this->bdd->prepare($request);
+                $statement->bindParam(':id', $profileId);
+                $result = $statement->execute();
+                if (!$result){
+                    echo json_encode(array('Error'=>'An Error occured when trying to get profile balance'));
+                    return;
+                } else {
+                    $balance = $result['balance'];
+                    $totalBalance = $balance + $total;
+                    $request = 'UPDATE profile SET balance = :totalBalance WHERE id = :profileId';
+                    $statement= $this->bdd->prepare($request);
+                    $statement->bindParam(':totalBalance', $totalBalance);
+                    $statement->bindParam('profileId', $profileId);
+                    $result = $statement->execute();
+                    if(!$result){
+                        echo json_encode(array('Error' => 'An error occured when trying to update profile'));
+                        return;
+                    } else {
+                        echo json_encode(array('Success' => 'the trade has been successfully closed'));
+                    }
+                }
+            }
+        }
+
+    }
 }
 ?>

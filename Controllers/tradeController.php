@@ -62,8 +62,21 @@ class tradeController extends Controller
         $id = $data['profile_id'];
         $closedTrade = new tradeModel();
         $closedTrade->TradeClosed($id);
+        }
     }
-}
+    public function closeTrade($id){
+        $jsonData = file_get_contents('php://input');
+        $data = json_decode($jsonData, true);
+        if(!$data){
+            echo json_encode(array('Error' => 'No Data'));
+            return;
+        } else {
+            $profileId = $data['profile_id'];
+            $price = $data['close_price'];
+            $trade = new tradeModel();
+            $trade->CloseTrade($id, $profileId, $price);
+        }
+    }
 }
 
 ?>
