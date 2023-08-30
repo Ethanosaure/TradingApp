@@ -27,7 +27,7 @@ class LoginController extends Controller{
             if ($result === false){
             http_response_code(400);
             echo json_encode(array("error" => "This user doesn't exist"));
-            exit();
+            return;
             } else {
             echo json_encode(array("success" => true, "profileData" => $result));
             return;

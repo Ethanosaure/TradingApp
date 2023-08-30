@@ -61,10 +61,24 @@ class tradeModel {
             } else{
             echo json_encode($data);
             return;
-        } 
+            } 
     }
         else {
             echo json_encode(array('Error' => 'Error occured'));
+            return;
+        }
+    }
+    public function GetOneTrade($id){
+        $request = 'SELECT * FROM trade WHERE id = :id';
+        $statement = $this->bdd->prepare($request);
+        $statement->bindParam(':id', $id);
+        $statement->execute();
+        $result = $statement->fetch(\PDO::FETCH_ASSOC);
+        if(!$result){
+            echo json_encode(array('Error' => "No trade with id: $id"));
+            return;
+        } else {
+            echo json_encode($result);
             return;
         }
     }

@@ -36,6 +36,10 @@ class tradeController extends Controller
             $tradeIndex->tradeIndex($id);
         }
     }
+    public function getOneTrade($id){
+        $oneTrade = new tradeModel();
+        $oneTrade->GetOneTrade($id);
+    }
 }
 
 ?>

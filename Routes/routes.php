@@ -21,7 +21,9 @@ $router->get('/api/profile', function(){
 $router->get('/api/trades/index', function(){
     (new tradeController)->getTrades();
 });
-
+$router->get("/api/trades/{id}", function($id){
+    (new tradeController)->getOneTrade($id);
+});
 
 // POST 
 $router->post('/api/wire', function (){
