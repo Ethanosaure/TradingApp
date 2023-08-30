@@ -55,9 +55,15 @@ class tradeModel {
         $result = $statement->execute();
         if($result){
             $data = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            if(!$data){
+            echo json_encode(array('Error' => "user with id : $id doesn't exist or doesn't have trades"));
+            return;
+            } else{
             echo json_encode($data);
             return;
-        } else {
+        } 
+    }
+        else {
             echo json_encode(array('Error' => 'Error occured'));
             return;
         }
