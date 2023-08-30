@@ -18,6 +18,9 @@ $router->get('/api/login', function(){
 $router->get('/api/profile', function(){
  (new loginController)->getProfile();
 });
+$router->get('/api/trades/index', function(){
+    (new tradeController)->getTrades();
+});
 
 
 // POST 

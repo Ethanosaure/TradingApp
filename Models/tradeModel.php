@@ -48,5 +48,19 @@ class tradeModel {
         }
     } 
     }
+    public function tradeIndex($id){
+        $request = 'SELECT * FROM trade WHERE profile_id = :id ';
+        $statement = $this->bdd->prepare($request);
+        $statement->bindParam(':id', $id);
+        $result = $statement->execute();
+        if($result){
+            $data = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            echo json_encode($data);
+            return;
+        } else {
+            echo json_encode(array('Error' => 'Error occured'));
+            return;
+        }
+    }
 }
 ?>

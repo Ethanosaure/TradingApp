@@ -7,7 +7,6 @@ use App\Models\tradeModel;
 
 class tradeController extends Controller
 {
-
     public function openTrade(){
         $jsonData = file_get_contents("php://input");
         $data = json_decode($jsonData, true);
@@ -22,11 +21,20 @@ class tradeController extends Controller
         $symbol = $data['symbol'];
         $trade = new tradeModel();
         $trade->trade($quantity, $symbol, $id, $price);
-
-
         }
-        
-
+    }
+    public function getTrades(){
+        $jsonData = file_get_contents("php://input");
+        $data = json_decode($jsonData, true);
+        if (!$data){
+            http_response_code(400);
+            echo json_encode(array('Error' => 'no data'));
+            return;
+        } else {
+            $id = $data['profile_id'];
+            $tradeIndex = new tradeModel();
+            $tradeIndex->tradeIndex($id);
+        }
     }
 }
 
