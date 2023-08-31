@@ -126,25 +126,26 @@ class tradeModel {
             $request = 'UPDATE trade SET open= 0, close_price = :price, close_datetime = now(), quantity = 0 WHERE id = :id';
             $statement = $this->bdd->prepare($request);
             $statement->bindParam(':id', $id);
-            $statement->bindParam(':total', $price);
-            $result = $statement->execute();
-            if($result){
+            $statement->bindParam(':price', $price);
+            $result2 = $statement->execute();
+            if($result2){
                 $request = 'SELECT balance FROM profile WHERE id = :id';
                 $statement = $this->bdd->prepare($request);
                 $statement->bindParam(':id', $profileId);
-                $result = $statement->execute();
-                if (!$result){
+                $statement->execute();
+                $result3 = $statement->fetch(\PDO::FETCH_ASSOC);
+                if (!$result3){
                     echo json_encode(array('Error'=>'An Error occured when trying to get profile balance'));
                     return;
                 } else {
-                    $balance = $result['balance'];
+                    $balance = $result3['balance'];
                     $totalBalance = $balance + $total;
                     $request = 'UPDATE profile SET balance = :totalBalance WHERE id = :profileId';
                     $statement= $this->bdd->prepare($request);
                     $statement->bindParam(':totalBalance', $totalBalance);
                     $statement->bindParam('profileId', $profileId);
-                    $result = $statement->execute();
-                    if(!$result){
+                    $result4 = $statement->execute();
+                    if(!$result4){
                         echo json_encode(array('Error' => 'An error occured when trying to update profile'));
                         return;
                     } else {
