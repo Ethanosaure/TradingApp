@@ -77,6 +77,18 @@ class tradeController extends Controller
             $trade->CloseTrade($id, $profileId, $price);
         }
     }
+    public function tradeClosePNL(){
+        $jsonData = file_get_contents('php://input');
+        $data = json_decode($jsonData, true);
+        if(!$data){
+            echo json_encode(array('Error'=>'no data'));
+            return;
+        } else {
+            $profileId = $data['profile_id'];
+            $trade = new tradeModel();
+            $trade->calculClosePNL($profileId);
+        }
+    }
 }
 
 ?>

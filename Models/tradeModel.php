@@ -123,12 +123,16 @@ class tradeModel {
         } else {
             $quantity = $result['quantity'];
             $total = $quantity * $price;
-            $request = 'UPDATE trade SET open= 0, close_price = :price, close_datetime = now(), quantity = 0 WHERE id = :id';
+            $request = 'UPDATE trade SET open= 0, close_price = :price, close_datetime = now() WHERE id = :id';
             $statement = $this->bdd->prepare($request);
             $statement->bindParam(':id', $id);
             $statement->bindParam(':price', $price);
             $result2 = $statement->execute();
-            if($result2){
+            if(!$result2){
+                    echo json_encode(array('Error' => 'An error occured when tring to update the balance'));
+                    return;
+            }else {
+               
                 $request = 'SELECT balance FROM profile WHERE id = :id';
                 $statement = $this->bdd->prepare($request);
                 $statement->bindParam(':id', $profileId);
@@ -152,9 +156,33 @@ class tradeModel {
                         echo json_encode(array('Success' => 'the trade has been successfully closed'));
                     }
                 }
-            }
+            } 
         }
-
     }
+    public function calculClosePNL($profileId){
+           $request = 'SELECT quantity, open_price, close_price, symbol FROM trade WHERE open = 0 AND profile_id = :profileId ';
+           $statement = $this->bdd->prepare($request);
+           $statement->bindParam(':profileId', $profileId);
+           $statement->execute();
+           $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+           if(!$result){
+            echo json_encode(array('Error' => 'There is no closed trades to check with this profile'));
+            return;
+           } else {
+            $PNL = 0;
+            foreach ($result as $trade){
+                $quantity = $trade['quantity'];
+                $openPrice = $trade['open_price'];
+                $closePrice = $trade['close_price'];
+                $symbol = $trade['symbol'];
+                $openTotal = $quantity * $openPrice;
+                $closeTotal = $quantity * $closePrice;
+                $total = $closeTotal - $openTotal;
+                $PNL = $PNL + $total;
+            }
+            echo json_encode(array('PNL' => "total PNL is : $PNL$"));
+            return;
+           }
+        }
 }
 ?>
