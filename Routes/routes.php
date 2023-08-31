@@ -33,6 +33,9 @@ $router->get('/api/closedPNL', function(){
 $router->get('/api/openPNL', function(){
     (new tradeController)->tradeOpenPNL();
 });
+$router->get('/api/currentBalance', function(){
+    (new tradeController)->balance();
+});
 $router->get("/api/trades/{id}", function($id){
     (new tradeController)->getOneTrade($id);
 });

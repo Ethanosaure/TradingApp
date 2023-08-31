@@ -206,5 +206,20 @@ class tradeModel {
                 echo json_encode(array('PNL' => "your PNL is about :$PNL for this symbol : $symbol"));
             }
         }
+        public function getBalance($profileId){
+            $request = 'SELECT balance FROM profile WHERE id = :profileId';
+            $statement= $this->bdd->prepare($request);
+            $statement->bindParam(':profileId', $profileId);
+            $statement->execute();
+            $result = $statement->fetch(\PDO::FETCH_ASSOC);
+            if(!$result){
+                echo json_encode(array('Error'=>"There is no profile wth this ID : $profileId"));
+                return;
+            } else {
+                $balance = $result['balance'];
+                echo json_encode(array('Balance'=> "This is your balance: $balance$"));
+                return;
+            }
+        }
 }
 ?>
