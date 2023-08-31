@@ -160,7 +160,7 @@ class tradeModel {
         }
     }
     public function calculClosePNL($profileId){
-           $request = 'SELECT quantity, open_price, close_price, symbol FROM trade WHERE open = 0 AND profile_id = :profileId ';
+           $request = 'SELECT quantity, open_price, close_price FROM trade WHERE open = 0 AND profile_id = :profileId ';
            $statement = $this->bdd->prepare($request);
            $statement->bindParam(':profileId', $profileId);
            $statement->execute();
@@ -174,7 +174,6 @@ class tradeModel {
                 $quantity = $trade['quantity'];
                 $openPrice = $trade['open_price'];
                 $closePrice = $trade['close_price'];
-                $symbol = $trade['symbol'];
                 $openTotal = $quantity * $openPrice;
                 $closeTotal = $quantity * $closePrice;
                 $total = $closeTotal - $openTotal;
@@ -183,6 +182,29 @@ class tradeModel {
             echo json_encode(array('PNL' => "total PNL is : $PNL$"));
             return;
            }
+        }
+        public function calculOpenPNL($profileId, $todayPrice, $symbol){
+            $request = 'SELECT quantity, open_price FROM trade WHERE profile_id = :profileId AND open = 1 AND symbol = :symbol';
+            $statement = $this->bdd->prepare($request);
+            $statement->bindParam(':profileId', $profileId);
+            $statement->bindParam(':symbol', $symbol);
+            $statement->execute();
+            $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
+            if (!$result){
+                echo json_encode(array('Error' => "There is no open trade to check for this profile with this symbol : $symbol"));
+                return;
+            } else {
+                $PNL = 0;
+                foreach($result as $trade){
+                    $quantity = $trade['quantity'];
+                    $openPrice = $trade['open_price'];
+                    $tradePrice = $quantity * $openPrice;
+                    $todayTradePrice = $quantity * $todayPrice;
+                    $total = $todayTradePrice - $tradePrice;
+                    $PNL = $PNL + $total;
+                }
+                echo json_encode(array('PNL' => "your PNL is about :$PNL for this symbol : $symbol"));
+            }
         }
 }
 ?>

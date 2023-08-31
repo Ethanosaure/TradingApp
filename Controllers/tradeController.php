@@ -89,6 +89,36 @@ class tradeController extends Controller
             $trade->calculClosePNL($profileId);
         }
     }
+    public function tradeOpenPNL(){
+        $jsonData = file_get_contents('php://input');
+        $data = json_decode($jsonData, true);
+        if(!$data){
+            echo json_encode(array('Error'=>'No data'));
+            return;
+        } else {
+            if (count($data) == 1)
+            {
+                $profileId = $data['profile_id'];
+                $todayPrice = $data['today_price'];
+                $symbol = $data['symbol'];
+                $trade = new tradeModel();
+                $trade->calculOpenPNL($profileId, $todayPrice, $symbol);
+                return;
+           
+            }else {
+                foreach($data as $obj){
+                $profileId = $obj['profile_id'];
+                $todayPrice = $obj['today_price'];
+                $symbol = $obj['symbol'];
+                $trade = new tradeModel();
+                $trade->calculOpenPNL($profileId, $todayPrice, $symbol);
+                }
+                return; 
+            }
+            
+        }
+    }
 }
+
 
 ?>
